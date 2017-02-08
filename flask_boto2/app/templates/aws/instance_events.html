@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<div class="row-fluid">
+    <div class="span9 offset1" align="center">
+	<span class="label label-info">EC2 Instance Info</span></br>
+	<p>
+		<table id="id" data-toggle="table" 
+		class="table table-striped table-bordered" cellspacing="0" width="100%" >
+		<thead>
+		<tr style="font-weight:bold">
+		<th><i class="fa fa-fw fa-sort"></i> ID</th>
+		<th><i class="fa fa-fw fa-sort"></i> IP</th>
+		<th><i class="fa fa-fw fa-sort"></i> VPC-ID</th>
+		<th><i class="fa fa-fw fa-sort"></i> EC2 Type</th>
+		<th><i class="fa fa-fw fa-sort"></i> State</th>
+		</tr>
+		</thead>
+		{% for instance_list in instance_node_list %}
+		<td>
+		{{instance_list['instance_id']}}
+		</td>
+		<td>
+		{{instance_list['private_ip_address']}}
+		</td>
+		<td>
+		{{instance_list['vpc_id']}}
+		</td>
+		<td>
+		{{instance_list['instance_type']}}
+		</td>
+		<td>
+		{{instance_list['state']}}
+		</td>
+		</tr>
+		{% endfor %}
+		</table>
+	</div>
+</div>
+	<br>
+		<br>
+	<br>
+		<br>	
+	<br>
+<div class="row-fluid">
+<div class="span9 offset1" align="center">
+	<span class="label label-info">Instance Events</span></br>
+	<p>
+		<table id="id" data-toggle="table" 
+		class="table table-striped table-bordered" cellspacing="0" width="100%" >
+		<thead>
+		<tr style="font-weight:bold">
+		<th><i class="fa fa-fw fa-sort"></i> Instance ID</th>
+		<th><i class="fa fa-fw fa-sort"></i> Event</th>
+		<th><i class="fa fa-fw fa-sort"></i> Description</th>
+		<th><i class="fa fa-fw fa-sort"></i> Event Before</th>
+		<th><i class="fa fa-fw fa-sort"></i> Event After</th>
+		</tr>
+		</thead>
+		{% for instance_event in instance_event_list %}
+		<tr>
+		<td>
+		{{instance_event['instance_id']}}
+		</td>
+		<td>
+		{{instance_event['event']}}
+		</td>
+		<td>
+		{{instance_event['description']}}
+		</td>
+		<td>
+		{{instance_event['event_before']}}
+		</td>
+		<td>
+		{{instance_event['event_before']}}
+		</td>
+		</tr>
+		{% endfor %}
+		</table>
+	</div>
+</div>
+		<script>
+		$(document).ready(function() {
+  			$('#id').dataTable();
+		});</script>
+
+{% endblock %}

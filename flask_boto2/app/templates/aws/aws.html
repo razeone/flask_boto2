@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<body>
+{% for dict in list %}
+<div class="row-fluid">
+    <div class="span9 offset1" align="center">
+	<span class="label label-info">{{dict['region']}}</span>
+	<p>
+	<table id="id" data-toggle="table" 
+		class="table table-striped table-bordered" cellspacing="0" width="100%" align="center">
+	<tr style="font-weight:bold">
+	<td>Instances</td><td>EBS Volumes</td><td>Elastic IPs</td><td>Elastic LBs</td>
+	</tr>
+	<tr>
+	<td>
+	{% if dict['event_count'] == 0 %}
+	<a href="/instance_events/{{dict['region']}}/"><button class="btn btn-mini btn-primary" type="button">{{dict['instance_count']}}</button></a>	
+	{% else %}
+	<a href="/instance_events/{{dict['region']}}/"><button class="btn btn-mini btn-primary" type="button">{{dict['instance_count']}}</button></a>
+	{% endif %}
+	</td>
+	<td>
+	{% if dict['unattached_ebs'] == 0 %}
+	<button class="btn btn-mini btn-primary" type="button">{{dict['ebscount']}}</button>
+	{% else %}
+	<a href="/ebs/{{dict['region']}}"><button class="btn btn-mini btn-primary" type="button">{{dict['ebscount']}}</button></a>
+	{% endif %}
+	</td>
+
+	<td>
+	{% if dict['unattached_eli'] == 0 %}
+	<button class="btn btn-mini btn-primary" type="button">{{dict['eli_count']}}</button>
+	{% else %}
+	<a href="/eips/{{dict['region']}}"><button class="btn btn-mini btn-primary" type="button">{{dict['eli_count']}}</button></a>
+	{% endif %}
+	</td>
+	<td>
+	<a href="/elbs/{{dict['region']}}"><button class="btn btn-mini btn-primary" type="button">{{dict['elb_count']}}</button></a>
+	</td>
+	</tr>
+	</table>
+	</div>
+</div>
+{% endfor %}
+</body>
+</html>
+{% endblock %}

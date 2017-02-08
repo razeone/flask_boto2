@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     {% if title %}
+     <title>{{title}} - AWS Admin</title>
+     {% else %}
+     <title>AWS Admin</title>
+     {% endif %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/static/css/pace-minimal.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+ <body>
+    <div class="container">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">AWS Admin</a>
+            <ul class="nav">
+              {% if current_user.is_authenticated() %}
+              <li {% if request.endpoint == "index.html" %}class="active"{% endif %}><a href="{{ url_for('base.show') }}">Main</a></li>
+              <li><a href="{{ url_for('base.show') }}">General</a></li>
+              <li><a href="{{ url_for('base.show') }}">Development</a></li>
+              <li><a href="{{ url_for('base.show') }}">Staging</a></li>
+              <li><a href="{{ url_for('base.show') }}">Production</a></li>
+              <li><a href="{{ url_for('aws.aws') }}">AWS</a></li>
+              <li><form class="navbar-form pull-right" action="{{  url_for("logout") }}" method="get"><button class="btn btn-danger">Logout</button></form></li>
+              <li><a href="/user/{{ current_user.id }}">{{ current_user.name }}</a></li>
+              {% else %}
+              <!--
+              <li><form class="navbar-form pull-right" action="{{  url_for("logout") }}" method="get"><button class="btn btn-danger">Logout</button></form></li>
+              -->
+              {% endif %}
+            </ul>
+            <div id="content">
+              <div id="messages" hidden="hidden">
+                    {% with errors = get_flashed_messages(with_categories=true) %}
+                      {% if errors %}
+                        {% for category, msg in errors %}
+                          {% if category == "error" %}
+                            <div class="alert alert-danger alert-dismissable">
+                          {% else %}
+                            <div class="alert alert-success alert-dismissable">
+                          {% endif %}
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ msg }}
+                            </div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+                  </div>
+                </div>
+          <div class="nav-collapse collapse">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span12">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/pace.min.js"></script>
+  </body>
+</html>
